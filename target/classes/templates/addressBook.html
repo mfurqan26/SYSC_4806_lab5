@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>My AddressBook</h1>
+    <p><p th:text="'Address Book ID: ' + ${id}" /></p>
+    <tr th:each="buddy: ${buddies}">
+        <td th:text="'Name: '+${buddy.name}" />
+        <td th:text="', Address: '+${buddy.address}" />
+        <td th:text="', Phone Number: '+${buddy.phoneNumber}" />
+        <br>
+    </tr>
+    <form method="post" action="" th:object="${buddyInfo}">
+        <p>Add New Buddy</p>
+        <p>Name: <input type="text" placeholder="Enter Name" name="name"/><br></p>
+        <p>Address: <input type="text" placeholder="Enter Address" name="address" ><br></p>
+        <p>Phone Number: <input type="text" placeholder="Enter Phone Number" name="phoneNumber"/><br></p>
+        <input type="submit" value="addBuddy">
+        <input type="reset" value="Reset" />
+    </form>
+</body>
+</html>
