@@ -20,9 +20,14 @@ public class AddressBook {
     public AddressBook(int id) {
         buddyCollection = new ArrayList<>();
         this.id = id;
+        BuddyInfo buddy1 =  new BuddyInfo("Tom","Carleton","613");
+        BuddyInfo buddy2 =  new BuddyInfo("Frank","Carleton","618");
+        BuddyInfo buddy3 =  new BuddyInfo("Bob","Carleton","813");
+        //Add buddies to address book
+        buddyCollection.add(buddy1);
+        buddyCollection.add(buddy2);
+        buddyCollection.add(buddy3);
     }
-
-    public List<BuddyInfo> getbuddyCollection() {return buddyCollection;}
 
     public void setbuddyCollection(List<BuddyInfo> buddyCollection) {this.buddyCollection = buddyCollection;}
 

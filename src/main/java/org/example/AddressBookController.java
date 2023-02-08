@@ -1,4 +1,5 @@
 package org.example;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/addressBook")
 public class AddressBookController {
 
-    private AddressBookRepository addressBookRepository;
+    private final AddressBookRepository addressBookRepository;
     private AddressBook currentAddressBook;
 
-    @Autowired
     public AddressBookController(AddressBookRepository addressBookRepository){
         this.addressBookRepository = addressBookRepository;
+        currentAddressBook = new AddressBook();
+    }
+
+    /** try http://localhost:8080/addressBook */
+    @GetMapping("/")
+    public String initial(Model model) {
+        currentAddressBook = new AddressBook(0);
+        model.addAttribute("id", currentAddressBook.getId());
+        model.addAttribute("buddies",currentAddressBook.getBuddyCollection());
+        return "addressBook";
     }
 
     /** try http://localhost:8080/addressBook/0 */
@@ -26,16 +36,10 @@ public class AddressBookController {
 
         if(AddressBook == null){
             AddressBook = new AddressBook(id);
-            BuddyInfo buddy1 =  new BuddyInfo("Tom","Carleton","613");
-            BuddyInfo buddy2 =  new BuddyInfo("Frank","Carleton","618");
-            BuddyInfo buddy3 =  new BuddyInfo("Bob","Carleton","813");
-
-            //Add buddies to address book
-            AddressBook.addBuddy(buddy1);AddressBook.addBuddy(buddy2);AddressBook.addBuddy(buddy3);
             addressBookRepository.save(AddressBook);
         }
         model.addAttribute("id", id);
-        model.addAttribute("buddies",AddressBook.getbuddyCollection());
+        model.addAttribute("buddies",AddressBook.getBuddyCollection());
         currentAddressBook = AddressBook;
         return "addressBook";
     }
@@ -49,7 +53,19 @@ public class AddressBookController {
         BuddyInfo newBuddy = new BuddyInfo(name,address,phoneNumber);
         AddressBook.addBuddy(newBuddy);
         model.addAttribute("id", id);
-        model.addAttribute("buddies",AddressBook.getbuddyCollection());
+        model.addAttribute("buddies",AddressBook.getBuddyCollection());
+        currentAddressBook = AddressBook;
+        return "addressBook";
+    }
+
+    @DeleteMapping("/{id}/{buddyID}")
+    public String deleteEmployee(@PathVariable int id, @PathVariable int buddyID, Model model) {
+        AddressBook AddressBook = addressBookRepository.findAddressBooksById(id);
+        if(AddressBook == null){AddressBook = currentAddressBook;}
+
+        AddressBook.removeBuddy(buddyID);
+        model.addAttribute("id", id);
+        model.addAttribute("buddies",AddressBook.getBuddyCollection());
         currentAddressBook = AddressBook;
         return "addressBook";
     }
