@@ -20,13 +20,4 @@ $(document).ready(function() {
             }
         }
     });
-    $.ajax({
-        type : 'POST',
-        params: 'newBook',
-        url: "http://localhost:8080/addressRestBook/"
-    }).then(function (data) {
-        let id = data.id;
-        let numBuddies = data.buddyCollection.length;
-        $('.tbody').append("<tr><td>"+id+"</td> <td>"+numBuddies+"</td></tr><br>");
-    });
 });
