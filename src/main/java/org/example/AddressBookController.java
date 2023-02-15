@@ -20,10 +20,20 @@ public class AddressBookController {
     /** try http://localhost:8080/addressBook/ */
     @GetMapping("/")
     public String home(Model model) {
-        List<AddressBook> book = addressBookRepository.findAll();
-        model.addAttribute("addressBook", book);
+        List<AddressBook> books = addressBookRepository.findAll();
+        model.addAttribute("addressBook", books);
         return "index";
     }
+
+    @PostMapping(value = "/", params = "newBook")
+    public String addBook(Model model) {
+        AddressBook newBook = new AddressBook();
+        addressBookRepository.save(newBook);
+        List<AddressBook> books = addressBookRepository.findAll();
+        model.addAttribute("addressBook", books);
+        return "index";
+    }
+
 
     /** try http://localhost:8080/addressBook/1 */
     @GetMapping("/{id}")

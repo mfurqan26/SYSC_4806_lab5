@@ -5,28 +5,42 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <h1>My AddressBook</h1>
-    <p><p th:text="'Address Book ID: ' + ${id}" /></p>
-    <tr th:each="buddy: ${buddies}">
-        <td th:text="'ID: '+${buddy.id}" />
-        <td th:text="'Name: '+${buddy.name}" />
-        <td th:text="', Address: '+${buddy.address}" />
-        <td th:text="', Phone Number: '+${buddy.phoneNumber}" />
-        <br>
-    </tr>
-    <form method="post" action="" th:object="${buddyInfo}">
-        <p>Add New Buddy</p>
-        <p>Name: <input type="text" placeholder="Enter Name" name="name"/><br></p>
-        <p>Address: <input type="text" placeholder="Enter Address" name="address" ><br></p>
-        <p>Phone Number: <input type="text" placeholder="Enter Phone Number" name="phoneNumber"/><br></p>
-        <input type="submit" value="AddBuddy" name="AddBuddy">
-        <input type="reset" value="Reset" />
-    </form>
-    <form method="post" action="" th:object="${buddyInfo}">
-        <p>Delete Buddy</p>
-        <p>Name: <input type="text" placeholder="Enter Buddy ID" name="buddyID"/><br></p>
-        <input type="submit" value="DeleteBuddy" name="DeleteBuddy">
-        <input type="reset" value="Reset" />
-    </form>
+    <h1 style="font-size: 3em">My AddressBook</h1>
+    <a th:href="@{/addressBook/}">Link to Home Page</a>
+    <table style="width: 100%">
+        <tbody style="width: 100%">
+        <tr>
+            <td>
+                <form method="post" action="" th:object="${buddyInfo}">
+                    <p>Add New Buddy</p>
+                    <p>Name: <input type="text" placeholder="Enter Name" name="name"/><br></p>
+                    <p>Address: <input type="text" placeholder="Enter Address" name="address" ><br></p>
+                    <p>Phone Number: <input type="text" placeholder="Enter Phone Number" name="phoneNumber"/><br></p>
+                    <input type="submit" value="AddBuddy" name="AddBuddy">
+                    <input type="reset" value="Reset" />
+                </form>
+            </td>
+            <td>
+                <form method="post" action="" th:object="${buddyInfo}">
+                    <p>Delete Buddy</p>
+                    <p>Name: <input type="text" placeholder="Enter Buddy ID" name="buddyID"/><br></p>
+                    <input type="submit" value="DeleteBuddy" name="DeleteBuddy">
+                    <input type="reset" value="Reset" />
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table style="border: solid black 2px; width: 80%; text-align: center">
+        <tr><td th:text="'Address Book ID: ' + ${id}"/></tr>
+        <tr th:each="buddy: ${buddies}">
+            <td th:text="'Buddy ID: '+${buddy.id}" />
+            <td th:text="'Name: '+${buddy.name}" />
+            <td th:text="'Address: '+${buddy.address}" />
+            <td th:text="'Phone Number: '+${buddy.phoneNumber}" />
+            <br>
+        </tr>
+    </table>
 </body>
 </html>
