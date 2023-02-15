@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Available AddressBooks</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Number of Buddies</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${addressBook}">
+            <td th:text="${book.id}">Id</td>
+            <td th:text="${book.getBuddyCollection().size()}">Number of Buddies</td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

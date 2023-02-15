@@ -8,6 +8,7 @@
     <h1>My AddressBook</h1>
     <p><p th:text="'Address Book ID: ' + ${id}" /></p>
     <tr th:each="buddy: ${buddies}">
+        <td th:text="'ID: '+${buddy.id}" />
         <td th:text="'Name: '+${buddy.name}" />
         <td th:text="', Address: '+${buddy.address}" />
         <td th:text="', Phone Number: '+${buddy.phoneNumber}" />
@@ -18,7 +19,13 @@
         <p>Name: <input type="text" placeholder="Enter Name" name="name"/><br></p>
         <p>Address: <input type="text" placeholder="Enter Address" name="address" ><br></p>
         <p>Phone Number: <input type="text" placeholder="Enter Phone Number" name="phoneNumber"/><br></p>
-        <input type="submit" value="addBuddy">
+        <input type="submit" value="AddBuddy" name="AddBuddy">
+        <input type="reset" value="Reset" />
+    </form>
+    <form method="post" action="" th:object="${buddyInfo}">
+        <p>Delete Buddy</p>
+        <p>Name: <input type="text" placeholder="Enter Buddy ID" name="buddyID"/><br></p>
+        <input type="submit" value="DeleteBuddy" name="DeleteBuddy">
         <input type="reset" value="Reset" />
     </form>
 </body>

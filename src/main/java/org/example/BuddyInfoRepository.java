@@ -1,10 +1,9 @@
 package org.example;
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BuddyInfoRepository extends JpaRepository<BuddyInfo, Long> {
+public interface BuddyInfoRepository extends JpaRepository<BuddyInfo, Integer> {
 
     List<BuddyInfo> findByName(String name);
     List<BuddyInfo> findByAddress(String address);

@@ -1,72 +1,86 @@
 package org.example;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/addressBook")
 public class AddressBookController {
 
-    private final AddressBookRepository addressBookRepository;
-    private AddressBook currentAddressBook;
+    @Autowired AddressBookRepository addressBookRepository;
 
     public AddressBookController(AddressBookRepository addressBookRepository){
         this.addressBookRepository = addressBookRepository;
-        currentAddressBook = new AddressBook();
     }
 
-    /** try http://localhost:8080/addressBook */
+    /** try http://localhost:8080/addressBook/ */
     @GetMapping("/")
-    public String initial(Model model) {
-        currentAddressBook = new AddressBook(0);
-        model.addAttribute("id", currentAddressBook.getId());
-        model.addAttribute("buddies",currentAddressBook.getBuddyCollection());
-        return "addressBook";
+    public String home(Model model) {
+        List<AddressBook> book = addressBookRepository.findAll();
+        model.addAttribute("addressBook", book);
+        return "index";
     }
 
-    /** try http://localhost:8080/addressBook/0 */
+    /** try http://localhost:8080/addressBook/1 */
     @GetMapping("/{id}")
     public String home(@PathVariable int id, Model model) {
         AddressBook AddressBook = addressBookRepository.findAddressBooksById(id);
 
         if(AddressBook == null){
-            AddressBook = new AddressBook(id);
-            addressBookRepository.save(AddressBook);
+            String errorString = "Can not find an AddressBook for this id:"+id+"\nReturn back to home page.";
+            model.addAttribute("text",errorString);
+            return "error";
         }
         model.addAttribute("id", id);
         model.addAttribute("buddies",AddressBook.getBuddyCollection());
-        currentAddressBook = AddressBook;
         return "addressBook";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping(value = "/{id}", params = "AddBuddy")
     public String addBuddy(@PathVariable int id, @RequestParam(name="name", required=false, defaultValue="") String name, @RequestParam(name="address", required=false, defaultValue="") String address, @RequestParam(name="phoneNumber", required=false, defaultValue="") String phoneNumber, Model model) {
 
-        AddressBook AddressBook = addressBookRepository.findAddressBooksById(id);
-        if(AddressBook == null){AddressBook = currentAddressBook;}
+        AddressBook book = addressBookRepository.findAddressBooksById(id);
+        if(book == null){
+            String errorString = "Can not find an AddressBook for this id:"+id+"\nReturn back to home page.";
+            model.addAttribute("text",errorString);
+            return "error";
+        }
 
         BuddyInfo newBuddy = new BuddyInfo(name,address,phoneNumber);
-        AddressBook.addBuddy(newBuddy);
+        book.addBuddy(newBuddy);
+        addressBookRepository.save(book);
+
         model.addAttribute("id", id);
-        model.addAttribute("buddies",AddressBook.getBuddyCollection());
-        currentAddressBook = AddressBook;
+        model.addAttribute("buddies",book.getBuddyCollection());
         return "addressBook";
     }
 
-    @DeleteMapping("/{id}/{buddyID}")
-    public String deleteEmployee(@PathVariable int id, @PathVariable int buddyID, Model model) {
-        AddressBook AddressBook = addressBookRepository.findAddressBooksById(id);
-        if(AddressBook == null){AddressBook = currentAddressBook;}
+    @PostMapping(value = "/{id}", params = "DeleteBuddy")
+    public String deleteBuddy(@PathVariable int id, @RequestParam(name="buddyID") String buddyID,Model model) {
+        AddressBook book = addressBookRepository.findAddressBooksById(id);
+        Integer buddy_ID = Integer.parseInt(buddyID);
+        if(book == null){
+            String errorString = "Can not find an AddressBook for this id:"+id+"\nReturn back to home page.";
+            model.addAttribute("text",errorString);
+            return "error";
+        }
 
-        AddressBook.removeBuddy(buddyID);
+        BuddyInfo buddy = book.getBuddy(buddy_ID);
+        if(buddy == null){
+            String errorString = "Can not find a buddy for this id:"+buddy_ID+"\nReturn back to home page.";
+            model.addAttribute("text",errorString);
+            return "error";
+        }
+
+        book.removeBuddy(buddy_ID);
+        addressBookRepository.save(book);
+
         model.addAttribute("id", id);
-        model.addAttribute("buddies",AddressBook.getBuddyCollection());
-        currentAddressBook = AddressBook;
+        model.addAttribute("buddies",book.getBuddyCollection());
         return "addressBook";
     }
 }

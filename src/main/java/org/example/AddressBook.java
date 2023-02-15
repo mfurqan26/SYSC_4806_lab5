@@ -34,7 +34,24 @@ public class AddressBook {
     public void addBuddy(BuddyInfo buddy){
         buddyCollection.add(buddy);
     }
-    public void removeBuddy(Integer buddyID){buddyCollection.remove(buddyID);}
+    public void removeBuddy(Integer buddyID){
+        for (int i = 0; i<buddyCollection.size(); i++){
+            BuddyInfo buddy = buddyCollection.get(i);
+            if(buddy.getId() == buddyID){
+                buddyCollection.remove(buddy);
+            }
+        }
+    }
+
+    public BuddyInfo getBuddy(Integer buddyID){
+        for (int i = 0; i<buddyCollection.size(); i++){
+            BuddyInfo buddy = buddyCollection.get(i);
+            if(buddy.getId() == buddyID){
+                return buddy;
+            }
+        }
+        return null;
+    }
 
     public List<BuddyInfo> getBuddyCollection(){return buddyCollection;}
 
