@@ -25,10 +25,9 @@ public class AddressBookController {
         return "home";
     }
 
-    /** try http://localhost:8080/addressBook/ */
+    /** try http://localhost:8080/addressBook/index */
     @GetMapping("/index")
-    public String index(Model model) {
-
+    public String index() {
         return "redirect:/index.html";
     }
 

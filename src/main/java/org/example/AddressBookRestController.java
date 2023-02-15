@@ -1,6 +1,7 @@
 package org.example;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,13 @@ public class AddressBookRestController {
         return books;
     }
 
+    @PostMapping(value = "/", params = "newBook")
+    public AddressBook addBook() {
+        AddressBook newBook = new AddressBook();
+        addressBookRestRepository.save(newBook);
+        return newBook;
+    }
+
     /** try http://localhost:8080/addressRestBook/1 */
     @GetMapping("/{id}")
     public AddressBook book(@PathVariable int id) {
@@ -33,7 +41,7 @@ public class AddressBookRestController {
     }
 
     @PostMapping(value = "/{id}", params = "AddBuddy")
-    public AddressBook addBuddy(@PathVariable int id, @RequestParam(name="name", required=false, defaultValue="") String name, @RequestParam(name="address", required=false, defaultValue="") String address, @RequestParam(name="phoneNumber", required=false, defaultValue="") String phoneNumber) {
+    public BuddyInfo addBuddy(@PathVariable int id, @RequestParam(name="name", required=false, defaultValue="") String name, @RequestParam(name="address", required=false, defaultValue="") String address, @RequestParam(name="phoneNumber", required=false, defaultValue="") String phoneNumber) {
 
         AddressBook book = addressBookRestRepository.findAddressBooksById(id);
         if(book == null){return null;}
@@ -41,7 +49,7 @@ public class AddressBookRestController {
         BuddyInfo newBuddy = new BuddyInfo(name,address,phoneNumber);
         book.addBuddy(newBuddy);
         addressBookRestRepository.save(book);
-        return book;
+        return newBuddy;
     }
 
     @PostMapping(value = "/{id}", params = "DeleteBuddy")
