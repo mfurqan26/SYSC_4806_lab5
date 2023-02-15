@@ -27,7 +27,7 @@ public class AddressBookController {
 
     /** try http://localhost:8080/addressBook/1 */
     @GetMapping("/{id}")
-    public String home(@PathVariable int id, Model model) {
+    public String book(@PathVariable int id, Model model) {
         AddressBook AddressBook = addressBookRepository.findAddressBooksById(id);
 
         if(AddressBook == null){
