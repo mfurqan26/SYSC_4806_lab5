@@ -3,19 +3,22 @@
 <head>
     <title>Simple AddressBook Website</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="../public/ajaxBook.js"></script>
+</head>
 </head>
 <body>
-    <h1 style="font-size: 3em">My AddressBook</h1>
-    <a th:href="@{/addressBook/}">Link to Home Page</a>
+    <h1 style="font-size: 3em"><p th:text="'Address Book ' + ${id}"></p></h1>
+    <a th:href="@{/addressBook/}">Go Back to Home Page</a>
     <table style="width: 100%">
         <tbody style="width: 100%">
         <tr>
             <td>
                 <form method="post" action="" th:object="${buddyInfo}">
                     <p>Add New Buddy</p>
-                    <p>Name: <input type="text" placeholder="Enter Name" name="name"/><br></p>
-                    <p>Address: <input type="text" placeholder="Enter Address" name="address" ><br></p>
-                    <p>Phone Number: <input type="text" placeholder="Enter Phone Number" name="phoneNumber"/><br></p>
+                    <p>Name: <input type="text" placeholder="Enter Name" name="name"/></p>
+                    <p>Address: <input type="text" placeholder="Enter Address" name="address" ></p>
+                    <p>Phone Number: <input type="text" placeholder="Enter Phone Number" name="phoneNumber"/></p>
                     <input type="submit" value="AddBuddy" name="AddBuddy">
                     <input type="reset" value="Reset" />
                 </form>
@@ -23,7 +26,7 @@
             <td>
                 <form method="post" action="" th:object="${buddyInfo}">
                     <p>Delete Buddy</p>
-                    <p>Name: <input type="text" placeholder="Enter Buddy ID" name="buddyID"/><br></p>
+                    <p>ID Number: <input type="text" placeholder="Enter Buddy ID" name="buddyID"/></p>
                     <input type="submit" value="DeleteBuddy" name="DeleteBuddy">
                     <input type="reset" value="Reset" />
                 </form>
@@ -33,6 +36,7 @@
     </table>
 
     <table style="border: solid black 2px; width: 80%; text-align: center">
+        <tbody class="tbody">
         <tr><td th:text="'Address Book ID: ' + ${id}"/></tr>
         <tr th:each="buddy: ${buddies}">
             <td th:text="'Buddy ID: '+${buddy.id}" />
@@ -41,6 +45,7 @@
             <td th:text="'Phone Number: '+${buddy.phoneNumber}" />
             <br>
         </tr>
+        </tbody>
     </table>
 </body>
 </html>

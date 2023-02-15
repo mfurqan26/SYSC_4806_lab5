@@ -3,7 +3,7 @@
 <head>
     <title>Simple AddressBook Website</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link th:href="@{css/style.css}" rel="stylesheet" />
+</head>
 </head>
 <body>
     <h1>Available AddressBooks</h1>
@@ -11,7 +11,7 @@
         <input type="submit" value="Create New Address Book" name="newBook">
     </form>
 
-    <table>
+    <table style="border: solid black 2px; margin-top: 1em">
         <thead>
         <tr>
             <th>Id</th>
@@ -19,11 +19,11 @@
             <th>Link to AddressBook</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="tbody">
         <tr th:each="book : ${addressBook}">
             <td th:text="${book.id}"></td>
             <td th:text="${book.getBuddyCollection().size()}"></td>
-            <td><a th:href="@{/addressBook/{id}(id=${book.id})}">Link</a></td>
+            <td><a th:href="@{/addressBook/{id}(id=${book.id})}" th:text="'Address Book ' + ${book.id}"></a></td>
         </tr>
         </tbody>
     </table>

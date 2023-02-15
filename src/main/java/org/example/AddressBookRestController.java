@@ -19,6 +19,7 @@ public class AddressBookRestController {
     @GetMapping("/")
     public List<AddressBook> home() {
         List<AddressBook> books = addressBookRestRepository.findAll();
+
         return books;
     }
 

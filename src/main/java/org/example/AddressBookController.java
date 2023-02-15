@@ -22,7 +22,14 @@ public class AddressBookController {
     public String home(Model model) {
         List<AddressBook> books = addressBookRepository.findAll();
         model.addAttribute("addressBook", books);
-        return "index";
+        return "home";
+    }
+
+    /** try http://localhost:8080/addressBook/ */
+    @GetMapping("/index")
+    public String index(Model model) {
+
+        return "redirect:/index.html";
     }
 
     @PostMapping(value = "/", params = "newBook")
@@ -31,7 +38,7 @@ public class AddressBookController {
         addressBookRepository.save(newBook);
         List<AddressBook> books = addressBookRepository.findAll();
         model.addAttribute("addressBook", books);
-        return "index";
+        return "home";
     }
 
 
@@ -41,8 +48,7 @@ public class AddressBookController {
         AddressBook AddressBook = addressBookRepository.findAddressBooksById(id);
 
         if(AddressBook == null){
-            String errorString = "Can not find an AddressBook for this id:"+id+"\nReturn back to home page.";
-            model.addAttribute("text",errorString);
+            model.addAttribute("text","Can not find an AddressBook for this id:"+id+"\nReturn back to home page.");
             return "error";
         }
         model.addAttribute("id", id);
@@ -55,8 +61,7 @@ public class AddressBookController {
 
         AddressBook book = addressBookRepository.findAddressBooksById(id);
         if(book == null){
-            String errorString = "Can not find an AddressBook for this id:"+id+"\nReturn back to home page.";
-            model.addAttribute("text",errorString);
+            model.addAttribute("text","Can not find an AddressBook for this id:"+id+"\nReturn back to home page.");
             return "error";
         }
 
@@ -74,15 +79,13 @@ public class AddressBookController {
         AddressBook book = addressBookRepository.findAddressBooksById(id);
         Integer buddy_ID = Integer.parseInt(buddyID);
         if(book == null){
-            String errorString = "Can not find an AddressBook for this id:"+id+"\nReturn back to home page.";
-            model.addAttribute("text",errorString);
+            model.addAttribute("text","Can not find an AddressBook for this id:"+id+"\nReturn back to home page.");
             return "error";
         }
 
         BuddyInfo buddy = book.getBuddy(buddy_ID);
         if(buddy == null){
-            String errorString = "Can not find a buddy for this id:"+buddy_ID+"\nReturn back to home page.";
-            model.addAttribute("text",errorString);
+            model.addAttribute("text","Can not find a Buddy for this id:"+buddy_ID+"\nReturn back to home page.");
             return "error";
         }
 
